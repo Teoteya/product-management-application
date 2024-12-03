@@ -5,6 +5,7 @@ Product Management Application — это приложение для управ
 - **Java**: 17
 - **Spring Boot**: 3.3.5
 - **PostgreSQL**: 17.0
+- **Maven**
 - **Git**
 
 ## Системные требования
