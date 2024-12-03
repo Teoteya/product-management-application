@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Product</title>
+</head>
+<body>
+<h1>Delete Product</h1>
+<p>Are you sure you want to delete the product:</p>
+<ul>
+    <li><strong>Name:</strong> <span th:text="${product.name}">Product Name</span></li>
+    <li><strong>Description:</strong> <span th:text="${product.description}">Product Description</span></li>
+    <li><strong>Price:</strong> <span th:text="${product.price}">Product Price</span></li>
+    <li><strong>Category:</strong> <span th:text="${product.categoryName}">Category Name</span></li>
+</ul>
+
+<form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post">
+    <input type="hidden" name="_method" value="delete"> <!-- Для имитации DELETE запроса -->
+    <button type="submit">Yes, Delete</button>
+    <button type="button" onclick="location.href='/products/list'">Cancel</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="/static/favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Updated</title>
+</head>
+<body>
+<h1>Category Updated</h1>
+
+<p>Category <strong th:text="${category.name}">Category Name</strong> has been updated successfully!</p>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <td th:text="${category.name}">Category Name</td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td th:text="${category.description}">Category Description</td>
+    </tr>
+</table>
+
+<!-- <a href="/categories/list">Back to Categories List</a> -->
+<button onclick="location.href='/categories/list'">Back to Category List</button>
+
+</body>
+</html>

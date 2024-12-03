@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="/static/favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Category</title>
+</head>
+<body>
+<h1>Edit Category</h1>
+
+<form th:action="@{/categories/{id}/update(id=${category.id})}" method="post">
+    <input type="hidden" name="_method" value="put"> <!-- Для имитации PUT запроса -->
+
+    <div>
+        <label for="name">Category Name</label>
+        <input type="text" id="name" name="name" th:value="${category.name}" placeholder="Category Name" required>
+    </div>
+
+    <div>
+        <label for="description">Description</label>
+        <textarea id="description" name="description" th:text="${category.description}" placeholder="Category Description"></textarea>
+    </div>
+
+    <button type="submit">Update Category</button>
+</form>
+
+<!-- <a href="/categories/list">Back to Categories List</a> -->
+<button onclick="location.href='/categories/list'">Back to Category List</button>
+
+</body>
+</html>
