@@ -1,0 +1,9 @@
+html {
+    background-image: url('https://img.freepik.com/free-photo/vivid-blurred-colorful-background_58702-2655.jpg'); /* Путь к изображению */
+    background-color: #9a98ff;
+    background-size: cover; /* Масштабирование на весь экран */
+    background-position: center; /* Центрирование */
+    background-repeat: no-repeat; /* Отключение повторения */
+    height: 100vh; /* Высота во весь экран */
+    margin: 0; /* Убираем внешние отступы */
+}
