@@ -16,12 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 @Service
 @Schema(description = "Сервис для управления продуктами")
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
@@ -56,10 +61,14 @@ public class ProductService {
     @Schema(description = "Редактирование продукта")
     @Transactional
     public ProductResponseDto updateProduct(Long id, ProductRequestDto request) {
+        log.info("Updating product with ID: {}", id);
+
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new CustomException("Product not found", HttpStatus.NOT_FOUND));
         Category category = categoryRepository.findByName(request.getCategoryName())
                 .orElseThrow(() -> new CustomException("Category not found", HttpStatus.NOT_FOUND));
+
+        log.info("Product found, updating details...");
 
         product.setName(request.getName());
         product.setDescription(request.getDescription());
@@ -67,17 +76,26 @@ public class ProductService {
 
         if (request.getImage() != null && !request.getImage().isEmpty()) {
             try {
+                log.info("Processing image...");
+                // Проверяем, что изображение в формате PNG
+                if (!"image/png".equals(request.getImage().getContentType())) {
+                    throw new CustomException("Only PNG images are allowed", HttpStatus.BAD_REQUEST);
+                }
+                // Сохраняем изображение как byte[]
                 product.setImage(request.getImage().getBytes());
+
             } catch (IOException e) {
+                log.error("Ошибка при конвертации изображения в byte[]", e);
                 throw new CustomException("Error converting image to byte[]", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
         product.setCategory(category);
         product.setStatus(request.getStatus());
-        product.setCreatedAt(LocalDateTime.now());
+        //product.setCreatedAt(LocalDateTime.now()); // Дата создания не меняется
 
         Product updatedProduct = productRepository.save(product);
+        log.info("Product updated successfully with ID: {}", updatedProduct.getId());
         return mapToResponse(updatedProduct);
     }
 

@@ -28,24 +28,24 @@ public class AuthService {
 
     @Schema(description = "Позволяет зарегистрировать нового пользователя")
     public void register(RegisterRequestDto request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new CustomException("User with this email already exists", HttpStatus.CONFLICT);
         }
         User user = new User();
-        user.setEmail(request.getEmail());
+        user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setRoles(request.getRoles());
         userRepository.save(user);
     }
 
     @Schema(description = "Возвращает JWT токен для аутентифицированного пользователя")
     public AuthResponseDto login(AuthRequestDto request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new CustomException("Invalid email or password", HttpStatus.UNAUTHORIZED));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new CustomException("Invalid email or password", HttpStatus.UNAUTHORIZED);
         }
-        String token = jwtTokenProvider.generateToken(user.getEmail(), user.getRole());
+        String token = jwtTokenProvider.generateToken(user.getUsername(), user.getRoles().toString());
         return new AuthResponseDto(token);
     }
 }

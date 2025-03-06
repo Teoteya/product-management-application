@@ -20,8 +20,8 @@ import com.example.product_management_system.security.JwtAuthenticationFilter;
 @EnableMethodSecurity
 @Schema(description = "Настройка фильтров, ролей и прав доступа")
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
@@ -31,21 +31,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf().disable() // Отключение CSRF для упрощения работы
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/register", "/error", "/templates/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/login", "/register", "/error", "/templates/**", "/static/**", "/css/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Открытые маршруты
+                        .requestMatchers("/products/admin/**").hasAuthority("ROLE_ADMIN")    // мы не можем здесь использовать hasRole("ADMIN") т.к. в БД у нас роли начинаются с преффикса "ROLE_", а должны для hasRole начинаться без него, сразу ADMIN и USER
+                        .requestMatchers("/categories/admin/**").hasAuthority("ROLE_ADMIN")  // поэтому мы используем hasAuthority, с ним можно использовать преффикс "ROLE_"
+                        .anyRequest().authenticated() // Остальные маршруты требуют аутентификации
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Ваш JWT фильтр
                 .formLogin(form -> form
-                        .defaultSuccessUrl("/products/list", true)
+                        .defaultSuccessUrl("/products/list", true) // Успешный редирект
                         .permitAll() // Доступен всем
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .permitAll()
+                        .logoutUrl("/logout") // URL для выхода
+                        .permitAll() // Доступен всем
                 )
-                .httpBasic();
+                .httpBasic(); // Включение базовой аутентификации (если требуется)
 
         return http.build();
     }

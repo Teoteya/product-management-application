@@ -8,6 +8,7 @@ public class CustomErrorController {
 
     @RequestMapping("/error")
     public String handleError() {
+        // Логика для обработки ошибок
         return "error";
     }
 }

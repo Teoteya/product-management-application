@@ -7,8 +7,8 @@
 </head>
 <body>
 <h1>Update Product</h1>
-<form th:action="@{'/products/' + ${product.id} + '/update'}" th:object="${product}" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="_method" value="put">  <!-- Для имитации PUT запроса -->
+<form th:action="@{'/products/admin/' + ${product.id} + '/update'}" th:object="${product}" method="post" enctype="multipart/form-data">
+     <!-- Для имитации PUT запроса -->
 
     <label for="name">Name:</label>
     <input type="text" id="name" th:field="*{name}" required/><br>
@@ -35,11 +35,31 @@
     </select><br>
 
     <label for="image">Image:</label>
-    <input type="file" id="image" th:field="*{image}"/><br>
+    <input type="file" id="image" name="image" accept="image/png" onchange="previewImage(event)"/><br>
+    <!-- Превью изображения -->
+    <img id="preview" th:src="@{/products/image/{id}(id=${product.id})}" alt="Preview" style="max-width: 300px; display: block;"><br>
 
     <button type="submit">Update Product</button>
     <a href="/products/list">Back to Products List</a>
 </form>
+
+<!-- JavaScript для предпросмотра -->
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById("preview");
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
 </body>
 </html>

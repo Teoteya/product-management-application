@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Create New Product</h1>
-<form th:action="@{/products/created}" th:object="${productRequest}" method="post" enctype="multipart/form-data">
+<form th:action="@{/products/admin/created}" th:object="${productRequest}" method="post" enctype="multipart/form-data">
 
         <label for="name">Name:</label>
         <input type="text" id="name" th:field="*{name}" required/><br>
@@ -33,11 +33,31 @@
         </select>
 
         <label for="image">Image:</label>
-        <input type="file" id="image" th:field="*{image}"/><br>
+        <input type="file" id="image" name="image" accept="image/png" onchange="previewImage(event)"/><br>
+        <!-- Превью изображения -->
+        <img id="preview" alt="Preview" style="max-width: 300px; display: none;" /><br>
 
         <button type="submit">Create Product</button>
 
         <a href="/products/list">Back to Products List</a>
 </form>
+
+<script>
+        function previewImage(event) {
+                const file = event.target.files[0]; // Получаем файл изображения
+                const reader = new FileReader(); // Создаем FileReader для чтения файла
+
+                reader.onload = function(e) {
+                        const preview = document.getElementById('preview');
+                        preview.src = e.target.result; // Устанавливаем результат чтения как источник изображения
+                        preview.style.display = 'block'; // Отображаем изображение
+                };
+
+                if (file) {
+                        reader.readAsDataURL(file); // Читаем изображение как DataURL
+                }
+        }
+</script>
+
 </body>
 </html>

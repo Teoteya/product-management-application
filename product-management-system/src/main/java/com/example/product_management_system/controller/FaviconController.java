@@ -1,4 +1,4 @@
-package com.example.product_management_system.controller;
+/* package com.example.product_management_system.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,4 +26,4 @@ public class FaviconController {
 //        return new ModelAndView("redirect:/favicon.png");
 //    }
 
-}
+}  */

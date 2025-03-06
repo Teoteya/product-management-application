@@ -4,7 +4,7 @@ server:
 spring:
   web:
     resources:
-      static-locations: /WEB-INF/views/
+      static-locations: /WEB-INF/views/, classpath:/static/
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
@@ -18,9 +18,18 @@ spring:
       auto-commit: false
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 40MB
+      max-request-size: 70MB
 
   springdoc:
     swagger-ui:
@@ -37,8 +46,15 @@ jwt:
 
 logging:
   level:
-    org.springframework.web: DEBUG
+    root: INFO  # общий уровень логирования (DEBUG, INFO, WARN, ERROR)
+    org.springframework: DEBUG
     org.springframework.security: DEBUG
-    org.springframework.boot: DEBUG
-    org.springframework.web.servlet.view: DEBUG
-    org.apache.jasper: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.web.servlet: DEBUG
+    org.hibernate.SQL: DEBUG  # логи SQL-запросов
+  file:
+    name: logs/app.log  # Логи будут сохраняться в logs/app.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %msg%n"  # формат для консоли
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"  # формат для файла
+

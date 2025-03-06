@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,8 @@ public class CategoryController {
     }
 
     @Operation(summary = "Просмотреть созданную категорию", description = "Страница для отображения созданной категории")
-    @PostMapping("/created")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/admin/created")
     public String createCategory(@Valid @ModelAttribute CategoryRequestDto request, Model model) {
         CategoryResponseDto category = categoryService.createCategory(request);
         model.addAttribute("category", category);
@@ -34,7 +36,8 @@ public class CategoryController {
     }
 
     @Operation(summary = "Создать категорию", description = "Форма для создания категории")
-    @GetMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/create")
     public String showCreateCategoryForm(Model model) {
         model.addAttribute("categoryRequest", new CategoryRequestDto());
         return "createCategory";
@@ -52,7 +55,8 @@ public class CategoryController {
 
 
     @Operation(summary = "Просмотреть обновленную категорию", description = "Страница для отображения обновленной категории")
-    @PutMapping("/{id}/update")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/admin/{id}/update")
     public String updateCategory(@PathVariable Long id, @Valid @ModelAttribute CategoryRequestDto request, Model model) {
         CategoryResponseDto category = categoryService.updateCategory(id, request);
         model.addAttribute("category", category);
@@ -60,7 +64,8 @@ public class CategoryController {
     }
 
     @Operation(summary = "Обновить категорию", description = "Форма для обновления существующей категории")
-    @GetMapping("/{id}/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/{id}/edit")
     public String showUpdateCategoryForm(@PathVariable Long id, Model model) {
         CategoryResponseDto category = categoryService.getCategoryById(id);
         model.addAttribute("category", category);
@@ -68,14 +73,16 @@ public class CategoryController {
     }
 
     @Operation(summary = "Просмотреть сообщение об удаленной категории", description = "Страница для отображения сообщения об успешном удалении категории")
-    @DeleteMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/admin/{id}/delete")
     public String deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return "redirect:/categories/list";
     }
 
     @Operation(summary = "Удалить категорию", description = "Форма для удаления категории")
-    @GetMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/{id}/delete")
     public String showDeleteCategoryForm(@PathVariable Long id, Model model) {
         CategoryResponseDto category = categoryService.getCategoryById(id);
         model.addAttribute("category", category);

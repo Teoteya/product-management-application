@@ -9,7 +9,7 @@
 <body>
 <h1>Edit Category</h1>
 
-<form th:action="@{/categories/{id}/update(id=${category.id})}" method="post">
+<form th:action="@{/categories/admin/{id}/update(id=${category.id})}" method="post">
     <input type="hidden" name="_method" value="put"> <!-- Для имитации PUT запроса -->
 
     <div>

@@ -15,7 +15,7 @@
     <li><strong>Category:</strong> <span th:text="${product.categoryName}">Category Name</span></li>
 </ul>
 
-<form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post">
+<form th:action="@{'/products/admin/' + ${product.id} + '/delete'}" method="post">
     <input type="hidden" name="_method" value="delete"> <!-- Для имитации DELETE запроса -->
     <button type="submit">Yes, Delete</button>
     <button type="button" onclick="location.href='/products/list'">Cancel</button>

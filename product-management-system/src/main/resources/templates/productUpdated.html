@@ -12,10 +12,16 @@
 <p><strong>Description:</strong> <span th:text="${product.description}"></span></p>
 <p><strong>Price:</strong> <span th:text="${product.price}"></span></p>
 <p><strong>Category:</strong> <span th:text="${product.categoryName}"></span></p>
-<p><strong>Image:</strong> <span th:text="${product.image}"></span></p>
+
+<!-- Отображение изображения -->
+<p><strong>Image:</strong></p>
+<img th:src="@{/products/{id}/image(id=${product.id})}" alt="Preview" style="max-width: 300px; display: block;">
+
+
 <p><strong>Status:</strong> <span th:text="${product.status}"></span></p>
 
 <button onclick="location.href='/products/list'">Back to Products List</button>
 
 </body>
 </html>
+

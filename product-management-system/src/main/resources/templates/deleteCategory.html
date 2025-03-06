@@ -11,7 +11,7 @@
 
 <p>Are you sure you want to delete the category <strong th:text="${category.name}"></strong>?</p>
 
-<form th:action="@{/categories/{id}/delete(id=${category.id})}" method="post">
+<form th:action="@{/categories/admin/{id}/delete(id=${category.id})}" method="post">
     <input type="hidden" name="_method" value="delete"> <!-- Для имитации DELETE запроса -->
     <button type="submit">Yes, Delete</button>
 </form>

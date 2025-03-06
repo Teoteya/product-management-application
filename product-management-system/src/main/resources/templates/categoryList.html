@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Подключение CSS -->
     <title>Category List</title>
 </head>
 <body>
 <h1>Category List</h1>
 
 <!-- Кнопка для создания новой категории -->
-<button onclick="location.href='/categories/create'">Create New Category</button>
+<button onclick="location.href='/categories/admin/create'">Create New Category</button>
 
 <table border="1">
     <thead>
@@ -28,8 +29,8 @@
         <td th:text="${category.description}">Category Description</td>
         <td>
             <!-- Ссылки на редактирование и удаление -->
-            <a th:href="@{/categories/{id}/edit(id=${category.id})}">Edit</a> |
-            <a th:href="@{/categories/{id}/delete(id=${category.id})}">Delete</a>
+            <a th:href="@{/categories/admin/{id}/edit(id=${category.id})}">Edit</a> |
+            <a th:href="@{/categories/admin/{id}/delete(id=${category.id})}">Delete</a>
         </td>
     </tr>
     </tbody>

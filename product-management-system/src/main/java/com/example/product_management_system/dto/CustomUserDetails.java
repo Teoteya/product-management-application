@@ -20,7 +20,7 @@ public class CustomUserDetails implements UserDetails {
     @Schema(description = "Возвращаем роли пользователя, например, с помощью коллекции SimpleGrantedAuthority")
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
+        return Arrays.asList(new SimpleGrantedAuthority(user.getRoles().toString()));
     }
 
     @Schema(description = "Возвращаем пароль пользователя")
@@ -32,7 +32,7 @@ public class CustomUserDetails implements UserDetails {
     @Schema(description = "Возвращаем email пользователя вместо username, при авторизации вводить email")
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getUsername();
     }
 
     @Schema(description = "Возвращаем, что аккаунт не истек")

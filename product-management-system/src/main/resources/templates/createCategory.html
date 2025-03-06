@@ -10,7 +10,7 @@
 <h1>Create New Category</h1>
 
 <!-- Форма для создания категории -->
-<form th:action="@{/categories/created}" th:object="${categoryRequest}" method="post">
+<form th:action="@{/categories/admin/created}" th:object="${categoryRequest}" method="post">
     <div>
         <label for="name">Category Name</label>
         <input type="text" id="name" th:field="*{name}" placeholder="Enter category name" required>

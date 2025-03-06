@@ -3,3 +3,9 @@ databaseChangeLog:
       file: classpath:db/changeSets/1-create-tables.sql
   - include:
       file: classpath:db/changeSets/2-add-data.sql
+  - include:
+      file: classpath:db/changeSets/3-update-roles.sql
+  - include:
+      file: classpath:db/changeSets/4-drop-tables.sql
+  - include:
+      file: classpath:db/changeSets/5-create-new-tables.sql
