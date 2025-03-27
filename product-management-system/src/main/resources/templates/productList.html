@@ -2,27 +2,69 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="icon" href="/static/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Подключение CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css(v=${#dates.createNow().getTime()})}">  <!-- Здесь #dates.createNow().getTime() подставляет тек. время в миллисек, заставляя браузер загружать новую версию файла при каждом обновлении страницы. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product List</title>
 </head>
+
+<header>
+    <a href="" id="logo" title="Go to the main page">XXMarket</a>
+    <a href="http://localhost:8080/login" id="login" title="Authentication">Switch Account</a>
+    <input type="text" class="search" placeholder="Search on the site"/>
+</header>
+
 <body>
+<div id="productList">
 <h1>Product List</h1>
-<button onclick="location.href='/products/admin/create'">Create New Product</button>
+    <div id="topButtons">
+        <button onclick="location.href='/products/admin/create'">Create New Product</button>
+        <button onclick="location.href='/categories/list'">Get All Categories</button>
+    </div>
+</div>
+<br>
+
+<div id="products-container">
+    <div th:each="product : ${products}" id="wrapper">
+        <div>
+            <img th:if="${product.image != null}"
+                 th:src="@{/products/{id}/image(id=${product.id})}"
+                 alt="Product Image">
+        </div>
+
+        <div id="titles">
+            <strong>Name:</strong> <span th:text="${product.name}"></span><br>
+            <strong>Description:</strong> <span th:text="${product.description}"></span><br>
+            <strong>Price:</strong> <span th:text="${product.price}"></span><br>
+            <strong>Category:</strong> <span th:text="${product.categoryName}"></span><br>
+            <strong>Status:</strong> <span th:text="${product.status}"
+                                           th:classappend="${product.status == 'активен' ? 'status-active' : 'status-inactive'}">
+                                     </span><br>
+            <div>
+                <a th:href="@{/products/admin/{id}/edit(id=${product.id})}">Edit</a> |
+                <a th:href="@{/products/admin/{id}/delete(id=${product.id})}">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div id="wrapper">
 <table>
     <thead>
-    <tr>
+    <tr id="headers">
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
         <th>Category</th>
         <th>Image</th>
         <th>Status</th>
+        <th>Action</th>
     </tr>
     </thead>
+
     <tbody>
-    <!-- Используем Thymeleaf для рендеринга продуктов -->
+    // Используем Thymeleaf для рендеринга продуктов
     <tr th:each="product : ${products}">
         <td th:text="${product.name}">Product Name</td>
         <td th:text="${product.description}">Product Description</td>
@@ -37,16 +79,21 @@
         </td>
 
         <td th:text="${product.status}">Status</td>
+
         <td>
-            <!-- Ссылки на редактирование и удаление -->
+            // Ссылки на редактирование и удаление
             <a th:href="@{/products/admin/{id}/edit(id=${product.id})}">Edit</a> |
             <a th:href="@{/products/admin/{id}/delete(id=${product.id})}">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
-
-<button onclick="location.href='/categories/list'">Get All Categories</button>
+</div>   -->
+<br>
+<footer>
+    <a href=""><img src="https://static-00.iconduck.com/assets.00/vk-icon-2048x2048-feti9z3e.png"
+                    alt="VK group" title="VK group"/></a>
+</footer>
 
 <div id="pagination">
     <button th:each="i : ${#numbers.sequence(1, totalPages)}"
