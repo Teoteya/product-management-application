@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+product-management-system/src/main/webapp/WEB-INF/views/
+src/main/webapp/views/*.jsp
+*.jsp
+src/main/java/com/example/product_management_system/controller/uhouhoo.java
+product-management-application/product-management-system/src/main/java/com/example/product_management_system/controller/FaviconController.java
