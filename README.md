@@ -38,9 +38,9 @@ product-management-system-0.0.1-SNAPSHOT.war
 
 ## Для того, чтобы выполнить вход, нужно ввести данные одного из пользователей, помещенных в БД:
 
-Username: user  Password: 12345  Email: user@gmail.com
+**Username:** user , **Password:** 12345 , **Email:** user@gmail.com ,
 
-Username: admin  Password: 123456  Email: admin@gmail.com
+**Username:** admin , **Password:** 123456 , **Email:** admin@gmail.com .
 
 ## Документация API.
 Swagger UI:
