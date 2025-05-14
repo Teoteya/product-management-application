@@ -58,3 +58,14 @@ jobs:  # Определяем работы (jobs), которые будут в�
               Write-Error "Application did not start correctly."
               exit 1
           }
+
+      - name: Show application logs  # Вывод логов приложения
+        shell: pwsh
+        run: |
+          Write-Output "Showing application logs..."
+          Get-Content "$env:GITHUB_WORKSPACE\stdout.log" -ErrorAction SilentlyContinue
+          Get-Content "$env:GITHUB_WORKSPACE\stderr.log" -ErrorAction SilentlyContinue
+
+      - name: Check running processes  # Проверка, слушает ли приложение порт 8080
+        shell: pwsh
+        run: Get-NetTCPConnection | Where-Object { $_.LocalPort -eq 8080 }
