@@ -29,16 +29,14 @@ jobs:  # Определяем работы (jobs), которые будут в�
         shell: pwsh  # Указываем, что будем исп. PowerShell (pwsh) в Windows
         run: |
           Write-Output "Starting the application using embedded Tomcat"
-          # Запускаем приложение в фоне с помощью Start-Process.
-          # $env:GITHUB_WORKSPACE ссылается на корневую папку репозитория на виртуальной машине.
+          
           Start-Process -FilePath 'java' -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\target\product-management-system-0.0.1-SNAPSHOT.war" -RedirectStandardOutput "$env:GITHUB_WORKSPACE\app.log" -RedirectStandardError "$env:GITHUB_WORKSPACE\app.log"
 
           Write-Output "Waiting 20 seconds for the application to start..."
-          Start-Sleep -Seconds 20  # Ждем 20 секунд, чтобы приложение успело запуститься
+          Start-Sleep -Seconds 20  
 
           Write-Output "Checking application status..."
           try {
-              # Отправляем HTTP-запрос на http://localhost:8080 и проверяем, отвечает ли сервер
               $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing -TimeoutSec 10
               if ($response.StatusCode -eq 200) {
                 Write-Output "Application is up and running."
