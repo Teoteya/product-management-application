@@ -20,9 +20,14 @@ jobs:  # Определяем работы (jobs), которые будут в�
           java-version: '17'  # Указываем, какую версию JDK нужно установить
           distribution: 'temurin'  # Выбираем дистрибуцию OpenJDK от Adoptium (бесплатная и стабильная)
 
+      - name: Debug workspace  # Проверяем, какие файлы есть в рабочей папке
+        run: |
+          cd $env:GITHUB_WORKSPACE/product-management-system
+          ls
+
       - name: Build project  # Шаг для сборки проекта
         run: |
-          cd $env:GITHUB_WORKSPACE
+          cd $env:GITHUB_WORKSPACE/product-management-system
           mvn clean package
 
       - name: Run tests  # Шаг для запуска юнит-тестов
