@@ -45,7 +45,7 @@ jobs:  # Определяем работы (jobs), которые будут в�
         run: |
           Write-Output "Starting application using embedded Tomcat..."
           Start-Process -FilePath 'java' -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\product-management-system\target\product-management-system-0.0.1-SNAPSHOT.war" -RedirectStandardOutput "$env:GITHUB_WORKSPACE\stdout.log" -RedirectStandardError "$env:GITHUB_WORKSPACE\stderr.log"
-          Start-Sleep -Seconds 30
+          Start-Sleep -Seconds 90
           Write-Output "Checking application status..."
           try {
               $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing -TimeoutSec 10
