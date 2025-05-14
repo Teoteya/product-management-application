@@ -60,6 +60,7 @@ jobs:  # Определяем работы (jobs), которые будут в�
           }
 
       - name: Show application logs  # Вывод логов приложения
+        if: always()
         shell: pwsh
         run: |
           Write-Output "Showing application logs..."
@@ -67,5 +68,6 @@ jobs:  # Определяем работы (jobs), которые будут в�
           Get-Content "$env:GITHUB_WORKSPACE\stderr.log" -ErrorAction SilentlyContinue
 
       - name: Check running processes  # Проверка, слушает ли приложение порт 8080
+        if: always()
         shell: pwsh
         run: Get-NetTCPConnection | Where-Object { $_.LocalPort -eq 8080 }
