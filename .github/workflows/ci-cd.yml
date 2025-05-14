@@ -25,9 +25,12 @@ jobs:  # Определяем работы (jobs), которые будут в�
           cd $env:GITHUB_WORKSPACE/product-management-system
           ls
 
-      - name: Build project without tests
-        run: mvn clean package -DskipTests
+      - name: Build project  # Шаг для сборки проекта
+        run: |
+          cd $env:GITHUB_WORKSPACE/product-management-system
+          mvn clean package -DskipTests
 
+      
 
       - name: Deploy Application with Embedded Tomcat  # Шаг для деплоя и запуска приложения
         shell: pwsh  # Указываем, что будем исп. PowerShell (pwsh) в Windows
