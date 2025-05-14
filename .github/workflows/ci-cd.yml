@@ -30,7 +30,10 @@ jobs:  # Определяем работы (jobs), которые будут в�
           cd $env:GITHUB_WORKSPACE/product-management-system
           mvn clean package -DskipTests
 
-      
+      - name: List files in target directory  # Проверяем, есть ли WAR-файл
+        if: always()
+        shell: pwsh
+        run: Get-ChildItem "$env:GITHUB_WORKSPACE\target"
 
 
       - name: Deploy WAR to Embedded Tomcat
