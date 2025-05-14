@@ -1,11 +1,11 @@
 ## Описание
-Product Management Application — это приложение для управления продуктами и категориями на Java с использованием Spring Boot и PostgreSQL. Этот документ содержит инструкции по локальному запуску проекта.
+Product Management Application — это приложение для управления продуктами и категориями на Java с использованием Spring Boot, Hibernate и PostgreSQL. Этот документ содержит инструкции по локальному запуску проекта.
 
 ## Технологический стек
 - **Java**: 17
 - **Spring Boot**: 3.3.5
 - **PostgreSQL**: 17.0
-- **Maven**
+- **Maven**: 4.0.0
 - **Hibernate**
 - **Git**
 
@@ -38,9 +38,9 @@ product-management-system-0.0.1-SNAPSHOT.war
 
 ## Для того, чтобы выполнить вход, нужно ввести данные одного из пользователей, помещенных в БД:
 
-Username: user@gmail.com Password: 12345
+**Username:** user , **Password:** 12345 , **Email:** user@gmail.com ,
 
-Username: admin@gmail.com Password: 123456
+**Username:** admin , **Password:** 123456 , **Email:** admin@gmail.com .
 
 ## Документация API.
 Swagger UI:
