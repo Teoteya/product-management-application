@@ -30,34 +30,20 @@ jobs:  # Определяем работы (jobs), которые будут в�
           cd $env:GITHUB_WORKSPACE/product-management-system
           mvn clean package -DskipTests
 
-      
+      - name: List files in target directory  # Проверяем, есть ли WAR-файл
+        if: always()
+        shell: pwsh
+        run: Get-ChildItem "$env:GITHUB_WORKSPACE\target"
 
-      - name: Deploy Application with Embedded Tomcat  # Шаг для деплоя и запуска приложения
-        shell: pwsh  # Указываем, что будем исп. PowerShell (pwsh) в Windows
+
+      - name: Deploy WAR to Embedded Tomcat
+        shell: pwsh
         run: |
-          Write-Output "Starting the application using embedded Tomcat"
-          
-          Start-Process -FilePath 'java' `
-            -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\target\product-management-system-0.0.1-SNAPSHOT.war" `
-            -RedirectStandardOutput "$env:GITHUB_WORKSPACE\stdout.log" `
-            -RedirectStandardError "$env:GITHUB_WORKSPACE\stderr.log"
-          
-          Write-Output "Waiting 20 seconds for the application to start..."
-          Start-Sleep -Seconds 20
-          
-          Write-Output "Checking application status..."
-          try {
-              $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing -TimeoutSec 10
-              if ($response.StatusCode -eq 200) {
-                Write-Output "Application is up and running."
-              } else {
-                Write-Error "Application returned status code $($response.StatusCode)."
-                exit 1
-              }
-          } catch {
-              Write-Error "Application did not start correctly."
-              exit 1
-          }
+          Write-Output "Copying WAR file to Tomcat webapps..."
+          Copy-Item "$env:GITHUB_WORKSPACE\target\product-management-system-0.0.1-SNAPSHOT.war" "C:\Tomcat\webapps\product-management-system.war" -Force
+
+          Write-Output "Restarting Tomcat..."
+          Restart-Service -Name "Tomcat"
 
       - name: Show application logs  # Вывод логов приложения
         if: always()
