@@ -37,11 +37,14 @@ jobs:  # Определяем работы (jobs), которые будут в�
         run: |
           Write-Output "Starting the application using embedded Tomcat"
           
-          Start-Process -FilePath 'java' -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\target\product-management-system-0.0.1-SNAPSHOT.war" -RedirectStandardOutput "$env:GITHUB_WORKSPACE\app.log" -RedirectStandardError "$env:GITHUB_WORKSPACE\app.log"
-
+          Start-Process -FilePath 'java' `
+            -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\target\my-app.war" `
+            -RedirectStandardOutput "$env:GITHUB_WORKSPACE\stdout.log" `
+            -RedirectStandardError "$env:GITHUB_WORKSPACE\stderr.log"
+          
           Write-Output "Waiting 20 seconds for the application to start..."
-          Start-Sleep -Seconds 20  
-
+          Start-Sleep -Seconds 20
+          
           Write-Output "Checking application status..."
           try {
               $response = Invoke-WebRequest -Uri "http://localhost:8080" -UseBasicParsing -TimeoutSec 10
@@ -55,4 +58,3 @@ jobs:  # Определяем работы (jobs), которые будут в�
               Write-Error "Application did not start correctly."
               exit 1
           }
-      
