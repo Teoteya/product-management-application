@@ -27,23 +27,32 @@ jobs:  # Определяем работы (jobs), которые будут в�
 
       - name: Build project  # Шаг для сборки проекта
         run: |
-          cd $env:GITHUB_WORKSPACE/product-management-system # Переход в папку, где лежит pom.xml
-          mvn clean package -DskipTests
+          cd $env:GITHUB_WORKSPACE/product-management-system
+          mvn clean package -DskipTests -e -X
 
       - name: List files in workspace  # Проверяем, какие файлы есть в репозитории
         if: always()
         shell: pwsh
         run: Get-ChildItem "$env:GITHUB_WORKSPACE"
 
+      - name: List files in project directory after build
+        if: always()
+        shell: pwsh
+        run: Get-ChildItem "$env:GITHUB_WORKSPACE/product-management-system" -Recurse
 
       - name: Deploy WAR to Embedded Tomcat
         shell: pwsh
         run: |
           Write-Output "Copying WAR file to Tomcat webapps..."
-          Copy-Item "$env:GITHUB_WORKSPACE\target\product-management-system-0.0.1-SNAPSHOT.war" "C:\Tomcat\webapps\product-management-system.war" -Force
+          Copy-Item "$env:GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" "C:\Tomcat\webapps\product-management-system.war" -Force
 
           Write-Output "Restarting Tomcat..."
           Restart-Service -Name "Tomcat"
+
+      - name: List files in target directory
+        if: always()
+        shell: pwsh
+        run: Get-ChildItem "$env:GITHUB_WORKSPACE/product-management-system/target"
 
       - name: Show application logs  # Вывод логов приложения
         if: always()
