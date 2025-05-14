@@ -38,7 +38,7 @@ jobs:  # Определяем работы (jobs), которые будут в�
           Write-Output "Starting the application using embedded Tomcat"
           
           Start-Process -FilePath 'java' `
-            -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\target\my-app.war" `
+            -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\target\product-management-system-0.0.1-SNAPSHOT.war" `
             -RedirectStandardOutput "$env:GITHUB_WORKSPACE\stdout.log" `
             -RedirectStandardError "$env:GITHUB_WORKSPACE\stderr.log"
           
