@@ -44,7 +44,7 @@ jobs:  # Определяем работы (jobs), которые будут в�
         shell: pwsh
         run: |
           Write-Output "Starting application using embedded Tomcat..."
-          Start-Process -FilePath 'java' -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\product-management-system\target\product-management-system-0.0.1-SNAPSHOT.war" -RedirectStandardOutput "$env:GITHUB_WORKSPACE\product-management-system\stdout.log" -RedirectStandardError "$env:GITHUB_WORKSPACE\product-management-system\stderr.log"
+          Start-Process -FilePath 'java' -ArgumentList '-jar', "$env:GITHUB_WORKSPACE\product-management-system\target\product-management-system-0.0.1-SNAPSHOT.war"
           Start-Sleep -Seconds 90
           Write-Output "Checking application status..."
           try {
@@ -59,6 +59,10 @@ jobs:  # Определяем работы (jobs), которые будут в�
               Write-Error "Application did not start correctly."
               exit 1
           }
+      - name: Check Java processes
+        if: always()
+        shell: pwsh
+        run: Get-Process java -ErrorAction SilentlyContinue
 
       - name: List files in target directory
         if: always()
