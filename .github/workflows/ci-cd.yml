@@ -12,7 +12,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17
+        image: postgres:13
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 12345
@@ -54,6 +54,12 @@ jobs:
         run: ls -laR "$GITHUB_WORKSPACE/product-management-system"
 
       - name: Run Application using Embedded Tomcat
+        env:
+          # Важно: поменяйте URL подключения к базе на имя сервиса "postgres",
+          # так как контейнер PostgreSQL доступен по этому имени.
+          SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/product-management
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 12345
         run: |
           echo "Starting application using embedded Tomcat..."
           nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
