@@ -60,6 +60,9 @@ jobs:
             --spring.datasource.url=jdbc:postgresql://postgres:5432/product-management \
             --spring.datasource.username=postgres \
             --spring.datasource.password=12345 \
+            --spring.liquibase.url=jdbc:postgresql://postgres:5432/product-management \
+            --spring.liquibase.user=postgres \
+            --spring.liquibase.password=12345 \
             > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
           sleep 90
           echo "Checking application status..."
