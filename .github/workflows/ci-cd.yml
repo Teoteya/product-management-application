@@ -12,7 +12,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:17
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: 12345
@@ -57,10 +57,10 @@ jobs:
         run: |
           echo "Starting application using embedded Tomcat..."
           nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" \
-            --spring.datasource.url=jdbc:postgresql://postgres:5432/product-management \
+            --spring.datasource.url=jdbc:postgresql://localhost:5432/product-management \
             --spring.datasource.username=postgres \
             --spring.datasource.password=12345 \
-            --spring.liquibase.url=jdbc:postgresql://postgres:5432/product-management \
+            --spring.liquibase.url=jdbc:postgresql://localhost:5432/product-management \
             --spring.liquibase.user=postgres \
             --spring.liquibase.password=12345 \
             > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
