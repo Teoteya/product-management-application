@@ -37,6 +37,9 @@ spring:
 
   liquibase:
     enabled: true
+    url: jdbc:postgresql://localhost:5432/product-management
+    user: postgres
+    password: 12345
     change-log: classpath:/db/db.changelog.yaml
     default-schema: public
 
