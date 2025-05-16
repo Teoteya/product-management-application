@@ -48,17 +48,5 @@ jwt:
   secret: "secure_secret_key"
   expiration: 3600000
 
-logging:
-  level:
-    root: INFO  # общий уровень логирования (DEBUG, INFO, WARN, ERROR)
-    org.springframework: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.web.servlet: DEBUG
-    org.hibernate.SQL: DEBUG  # логи SQL-запросов
-  file:
-    name: logs/app.log  # Логи будут сохраняться в logs/app.log
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %msg%n"  # формат для консоли
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"  # формат для файла
+
 

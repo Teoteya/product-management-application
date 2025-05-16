@@ -10,20 +10,7 @@ jobs:  # Определяем работы (jobs), которые будут в�
   build:  # Название работы – сборка проекта и деплой
     runs-on: windows-latest  # Используем виртуальную машину с Windows для выполнения шагов
 
-    services:
-      postgres:
-        image: postgres:17
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: 12345
-          POSTGRES_DB: product-management
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+
 
     steps:  # Список шагов, которые будут последовательно выполняться в рамках работы
       - name: Checkout repository  # Шаг для скачивания кода из репозитория
