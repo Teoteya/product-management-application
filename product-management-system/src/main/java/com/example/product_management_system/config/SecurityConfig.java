@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
                 .csrf().disable() // Отключение CSRF для упрощения работы
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/register", "/error", "/templates/**", "/static/**", "/css/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Открытые маршруты
+                        .requestMatchers("/","/login", "/register", "/error", "/templates/**", "/static/**", "/css/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll() // Открытые маршруты
                         .requestMatchers("/products/admin/**").hasAuthority("ROLE_ADMIN")    // мы не можем здесь использовать hasRole("ADMIN") т.к. в БД у нас роли начинаются с преффикса "ROLE_", а должны для hasRole начинаться без него, сразу ADMIN и USER
                         .requestMatchers("/categories/admin/**").hasAuthority("ROLE_ADMIN")  // поэтому мы используем hasAuthority, с ним можно использовать преффикс "ROLE_"
                         .anyRequest().authenticated() // Остальные маршруты требуют аутентификации
