@@ -57,9 +57,12 @@ jobs:
         run: |
           docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "CREATE ROLE root WITH LOGIN PASSWORD 'default_password';"
 
-      - name: Check if unzip is installed
+      - name: Extract and check for application.yml inside WAR
         run: |
-          which unzip || echo "Unzip is not installed"
+          mkdir tmp_extract
+          cd tmp_extract
+          jar -xf $GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war
+          find . -name "application.yml"
 
       - name: Inspect application.yml inside WAR
         run: |
