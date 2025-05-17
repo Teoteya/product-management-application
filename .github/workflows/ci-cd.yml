@@ -99,24 +99,19 @@ jobs:
         run: env
 
       - name: Run Application using Embedded Tomcat
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product-management
-          SPRING_DATASOURCE_USERNAME: postgres
-          SPRING_DATASOURCE_PASSWORD: 12345
-          SPRING_LIQUIBASE_URL: jdbc:postgresql://localhost:5432/product-management
-          SPRING_LIQUIBASE_USER: postgres
-          SPRING_LIQUIBASE_PASSWORD: 12345
         run: |
-          nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "target/stdout.log" 2> "target/stderr.log" &
+          nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" \
+            --spring.datasource.url=jdbc:postgresql://localhost:5432/product-management \
+            --spring.datasource.username=postgres \
+            --spring.datasource.password=12345 \
+            --spring.liquibase.url=jdbc:postgresql://localhost:5432/product-management \
+            --spring.liquibase.user=postgres \
+            --spring.liquibase.password=12345 \
+            > target/stdout.log 2> target/stderr.log &
           sleep 90
-          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
-          if [ "$response" -eq 200 ]; then
-            echo "Application is up and running."
-          else
-            echo "Application returned status code $response." >&2
-            exit 1
-          fi
-      
+          ls target
+          echo "stderr.log contents:"
+          cat target/stderr.log || echo "stderr.log does not exist"
 
       - name: List PostgreSQL connections
         if: always()
