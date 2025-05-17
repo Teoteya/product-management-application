@@ -62,6 +62,10 @@ jobs:
           mkdir tmp_extract
           unzip -l $GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war | grep application.yml
 
+      - name: Check if unzip is installed
+        run: |
+          which unzip || echo "Unzip is not installed"
+
       - name: Run Application using Embedded Tomcat
         run: |
           echo "Starting application using embedded Tomcat..."
