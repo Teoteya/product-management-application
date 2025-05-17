@@ -85,6 +85,16 @@ jobs:
                               -Dspring.liquibase.user=postgres \
                               -Dspring.liquibase.password=12345"
 
+      - name: Set environment variables
+        run: |
+          export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/product-management
+          export SPRING_DATASOURCE_USERNAME=postgres
+          export SPRING_DATASOURCE_PASSWORD=12345
+          export SPRING_LIQUIBASE_URL=jdbc:postgresql://localhost:5432/product-management
+          export SPRING_LIQUIBASE_USER=postgres
+          export SPRING_LIQUIBASE_PASSWORD=12345
+          env | grep SPRING_
+
       - name: Show all environment variables
         run: env
 
@@ -97,17 +107,8 @@ jobs:
           SPRING_LIQUIBASE_USER: postgres
           SPRING_LIQUIBASE_PASSWORD: 12345
         run: |
-          echo "Starting application using embedded Tomcat..."
-          nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" \
-            --spring.datasource.url=jdbc:postgresql://localhost:5432/product-management \
-            --spring.datasource.username=postgres \
-            --spring.datasource.password=12345 \
-            --spring.liquibase.url=jdbc:postgresql://localhost:5432/product-management \
-            --spring.liquibase.user=postgres \
-            --spring.liquibase.password=12345 \
-            > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
+          nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
           sleep 90
-          echo "Checking application status..."
           response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
           if [ "$response" -eq 200 ]; then
             echo "Application is up and running."
@@ -115,6 +116,7 @@ jobs:
             echo "Application returned status code $response." >&2
             exit 1
           fi
+      
 
       - name: List PostgreSQL connections
         if: always()
