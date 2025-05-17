@@ -65,6 +65,14 @@ jobs:
           which unzip || echo "Unzip is not installed"
 
       - name: Extract and check for application.yml inside WAR
+        env:
+          SPRING_CONFIG_LOCATION: classpath:/application.yml
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product-management
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 12345
+          SPRING_LIQUIBASE_URL: jdbc:postgresql://localhost:5432/product-management
+          SPRING_LIQUIBASE_USER: postgres
+          SPRING_LIQUIBASE_PASSWORD: 12345
         run: |
           mkdir tmp_extract
           cd tmp_extract
