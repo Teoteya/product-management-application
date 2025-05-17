@@ -107,7 +107,7 @@ jobs:
           SPRING_LIQUIBASE_USER: postgres
           SPRING_LIQUIBASE_PASSWORD: 12345
         run: |
-          nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
+          nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "target/stdout.log" 2> "target/stderr.log" &
           sleep 90
           response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
           if [ "$response" -eq 200 ]; then
