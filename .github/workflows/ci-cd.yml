@@ -79,6 +79,10 @@ jobs:
           jar -xf $GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war
           find . -name "application.yml"
 
+      - name: Show environment variables
+        if: always()
+        run: env | grep SPRING_
+
       - name: Run Application using Embedded Tomcat
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product-management
@@ -113,9 +117,7 @@ jobs:
           echo "Checking PostgreSQL active connections..."
           docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "SELECT usename, datname FROM pg_stat_activity;"
 
-      - name: Show environment variables
-        if: always()
-        run: env | grep SPRING_
+      
 
       - name: Check Java processes
         if: always()
