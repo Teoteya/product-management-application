@@ -53,6 +53,15 @@ jobs:
         if: always()
         run: ls -laR "$GITHUB_WORKSPACE/product-management-system"
 
+      - name: Create default PostgreSQL user
+        run: |
+          docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "CREATE ROLE root WITH LOGIN PASSWORD 'default_password';"
+
+      - name: Inspect application.yml inside WAR
+        run: |
+          mkdir tmp_extract
+          unzip -l $GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war | grep application.yml
+
       - name: Run Application using Embedded Tomcat
         run: |
           echo "Starting application using embedded Tomcat..."
@@ -73,6 +82,16 @@ jobs:
             echo "Application returned status code $response." >&2
             exit 1
           fi
+
+      - name: List PostgreSQL connections
+        if: always()
+        run: |
+          echo "Checking PostgreSQL active connections..."
+          docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "SELECT usename, datname FROM pg_stat_activity;"
+
+      - name: Show environment variables
+        if: always()
+        run: env | grep SPRING_
 
       - name: Check Java processes
         if: always()
