@@ -160,7 +160,7 @@
 				<resource>
 					<directory>src/main/resources</directory>
 					<includes>
-						<include>application.yml</include>
+						<include>application.yaml</include>
 					</includes>
 					<filtering>false</filtering>
 				</resource>
