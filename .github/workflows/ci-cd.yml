@@ -60,6 +60,10 @@ jobs:
       - name: Show all environment variables
         run: env
 
+      - name: Check if unzip is installed
+        run: |
+          which unzip || echo "Unzip is not installed"
+
       - name: Inspect application.yml inside WAR
         run: |
           mkdir tmp_extract
