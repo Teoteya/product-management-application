@@ -66,7 +66,13 @@ jobs:
           unzip -l $GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war | grep application.yml
 
       - name: Run Application using Embedded Tomcat
-
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product-management
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 12345
+          SPRING_LIQUIBASE_URL: jdbc:postgresql://localhost:5432/product-management
+          SPRING_LIQUIBASE_USER: postgres
+          SPRING_LIQUIBASE_PASSWORD: 12345
         run: |
           echo "Starting application using embedded Tomcat..."
           nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" \
