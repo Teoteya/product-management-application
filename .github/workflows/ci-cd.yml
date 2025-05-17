@@ -64,10 +64,12 @@ jobs:
         run: |
           which unzip || echo "Unzip is not installed"
 
-      - name: Inspect application.yml inside WAR
+      - name: Extract and check for application.yml inside WAR
         run: |
           mkdir tmp_extract
-          unzip -l $GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war | grep application.yml
+          cd tmp_extract
+          jar -xf $GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war
+          find . -name "application.yml"
 
       - name: Run Application using Embedded Tomcat
         env:
