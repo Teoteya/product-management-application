@@ -161,6 +161,7 @@
 					<directory>src/main/resources</directory>
 					<includes>
 						<include>application.yaml</include>
+						<include>db/db.changelog.yaml</include>
 					</includes>
 					<filtering>false</filtering>
 				</resource>
