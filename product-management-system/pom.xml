@@ -169,6 +169,8 @@
 					<includes>
 						<include>application.yaml</include>
 						<include>db/**</include>
+						<include>templates/**</include>
+						<include>static/**</include>
 					</includes>
 					<filtering>false</filtering>
 				</resource>
