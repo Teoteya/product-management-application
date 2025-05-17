@@ -44,6 +44,7 @@ jobs:
         run: |
           cd "$GITHUB_WORKSPACE/product-management-system"
           mvn clean package -DskipTests -e -X
+          ls target
 
       - name: List files in workspace
         if: always()
