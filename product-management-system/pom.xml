@@ -159,6 +159,12 @@
 			<resources>
 				<resource>
 					<directory>src/main/resources</directory>
+					<includes>
+						<include>**/*.yml</include>
+						<include>**/*.yaml</include>
+						<include>**/*.properties</include>
+					</includes>
+					<filtering>false</filtering>
 				</resource>
 			</resources>
             <plugins>

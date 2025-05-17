@@ -74,12 +74,6 @@ jobs:
       - name: Run Application using Embedded Tomcat
 
         run: |
-          export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/product-management
-          export SPRING_DATASOURCE_USERNAME=postgres
-          export SPRING_DATASOURCE_PASSWORD=12345
-          export SPRING_LIQUIBASE_URL=jdbc:postgresql://localhost:5432/product-management
-          export SPRING_LIQUIBASE_USER=postgres
-          export SPRING_LIQUIBASE_PASSWORD=12345
           echo "Starting application using embedded Tomcat..."
           nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" \
             --spring.datasource.url=jdbc:postgresql://localhost:5432/product-management \
