@@ -114,10 +114,6 @@ jobs:
             --spring.liquibase.password=12345 \
             > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
           sleep 90
-          echo "Contents of stdout.log:"
-          cat "$GITHUB_WORKSPACE/stdout.log" || echo "No stdout.log found"
-          echo "Contents of stderr.log:"
-          cat "$GITHUB_WORKSPACE/stderr.log" || echo "No stderr.log found"
 
       - name: List PostgreSQL connections
         if: always()
