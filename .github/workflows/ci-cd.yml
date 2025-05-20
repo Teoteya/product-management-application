@@ -91,6 +91,18 @@ jobs:
       - name: Show all environment variables
         run: env
 
+      - name: List files in workspace
+        if: always()
+        run: ls -la "$GITHUB_WORKSPACE"
+
+      - name: List files in project directory after build
+        if: always()
+        run: ls -laR "$GITHUB_WORKSPACE/product-management-system"
+
+      - name: Check if unzip is installed
+        run: |
+          which unzip || echo "Unzip is not installed"
+
       - name: Run Application using Embedded Tomcat
         run: |
           nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
@@ -112,6 +124,14 @@ jobs:
         run: |
           echo "Checking PostgreSQL active connections..."
           docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "SELECT usename, datname FROM pg_stat_activity;"
+
+      - name: Check Java processes
+        if: always()
+        run: ps aux | grep '[j]ava'  || true
+
+      - name: List files in target directory
+        if: always()
+        run: ls -la "$GITHUB_WORKSPACE/product-management-system/target"
 
       - name: Show application logs
         if: always()
