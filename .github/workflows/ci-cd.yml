@@ -46,13 +46,7 @@ jobs:
           mvn clean package -DskipTests -e -X
           ls target
 
-      - name: List files in workspace
-        if: always()
-        run: ls -la "$GITHUB_WORKSPACE"
-
-      - name: List files in project directory after build
-        if: always()
-        run: ls -laR "$GITHUB_WORKSPACE/product-management-system"
+      
 
       - name: Check files in CI workspace
         run: |
@@ -62,9 +56,7 @@ jobs:
         run: |
           docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "CREATE ROLE root WITH LOGIN PASSWORD 'default_password';"
 
-      - name: Check if unzip is installed
-        run: |
-          which unzip || echo "Unzip is not installed"
+      
 
       - name: Extract and check for application.yml inside WAR
         env:
@@ -115,8 +107,10 @@ jobs:
             > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
           sleep 90
           ls target
-          echo "stderr.log contents:"
-          cat target/stderr.log || echo "stderr.log does not exist"
+          echo "Contents of stdout.log:"
+          cat "$GITHUB_WORKSPACE/stdout.log" || echo "No stdout.log found"
+          echo "Contents of stderr.log:"
+          cat "$GITHUB_WORKSPACE/stderr.log" || echo "No stderr.log found"
 
       - name: List PostgreSQL connections
         if: always()
