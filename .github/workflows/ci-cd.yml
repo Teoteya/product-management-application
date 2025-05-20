@@ -50,9 +50,9 @@ jobs:
         run: |
           ls "$GITHUB_WORKSPACE"
 
-      - name: Create default PostgreSQL user
-        run: |
-          docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "CREATE ROLE root WITH LOGIN PASSWORD 'default_password';"
+     #- name: Create default PostgreSQL user
+     #  run: |
+     #    docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "CREATE ROLE root WITH LOGIN PASSWORD 'default_password';"
 
       - name: Extract and check for application.yml inside WAR
         env:
@@ -123,7 +123,7 @@ jobs:
 
       - name: Check Java processes
         if: always()
-        run: ps aux | grep '[j]ava'  || true
+        run: ps aux | grep '[j]ava' || true
 
       - name: List files in target directory
         if: always()
