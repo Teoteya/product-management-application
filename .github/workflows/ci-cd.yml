@@ -96,20 +96,23 @@ jobs:
         run: env
 
       - name: Run Application using Embedded Tomcat
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/product-management
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 12345
+          SPRING_LIQUIBASE_URL: jdbc:postgresql://localhost:5432/product-management
+          SPRING_LIQUIBASE_USER: postgres
+          SPRING_LIQUIBASE_PASSWORD: 12345
         run: |
           nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
-            --spring.datasource.url=jdbc:postgresql://localhost:5432/product-management \
-            --spring.datasource.username=postgres \
-            --spring.datasource.password=12345 \
-            --spring.liquibase.url=jdbc:postgresql://localhost:5432/product-management \
-            --spring.liquibase.user=postgres \
-            --spring.liquibase.password=12345 \
-            > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
           sleep 90
-          echo "Contents of stdout.log:"
-          cat "$GITHUB_WORKSPACE/stdout.log" || echo "No stdout.log found"
-          echo "Contents of stderr.log:"
-          cat "$GITHUB_WORKSPACE/stderr.log" || echo "No stderr.log found"
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+          if [ "$response" -eq 200 ]; then
+            echo "Application is up and running."
+          else
+            echo "Application returned status code $response." >&2
+            exit 1
+          fi
 
       - name: List PostgreSQL connections
         if: always()
@@ -117,7 +120,9 @@ jobs:
           echo "Checking PostgreSQL active connections..."
           docker exec $(docker ps -q -f name=postgres) psql -U postgres -c "SELECT usename, datname FROM pg_stat_activity;"
 
-      
+      - name: Show environment variables with SPRING_
+        if: always()
+        run: env | grep SPRING_
 
 
 
