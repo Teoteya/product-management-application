@@ -112,7 +112,7 @@ jobs:
             --spring.liquibase.url=jdbc:postgresql://localhost:5432/product-management \
             --spring.liquibase.user=postgres \
             --spring.liquibase.password=12345 \
-            > target/stdout.log 2> target/stderr.log &
+            > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
           sleep 90
           ls target
           echo "stderr.log contents:"
