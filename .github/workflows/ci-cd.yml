@@ -97,7 +97,7 @@ jobs:
 
       - name: Run Application using Embedded Tomcat
         run: |
-          nohup java -jar "$GITHUB_WORKSPACE/target/product-management-system-0.0.1-SNAPSHOT.war" > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
+          nohup java -jar "$GITHUB_WORKSPACE/product-management-system/target/product-management-system-0.0.1-SNAPSHOT.war" > "$GITHUB_WORKSPACE/stdout.log" 2> "$GITHUB_WORKSPACE/stderr.log" &
             --spring.datasource.url=jdbc:postgresql://localhost:5432/product-management \
             --spring.datasource.username=postgres \
             --spring.datasource.password=12345 \
